@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  database:
+    container_name: database
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_USER=pg
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=opsdash
+    ports:
+      - 5432:5432
+    volumes:
+      - /srv/opsdash-postgres:/var/lib/postgresql/data 
+
+volumes:
+  db:
