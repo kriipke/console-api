@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/kriipke/golang-gorm-postgres/initializers"
-	"github.com/kriipke/golang-gorm-postgres/models"
+	"github.com/kriipke/console-api/initializers"
+	"github.com/kriipke/console-api/models"
 )
 
 func init() {

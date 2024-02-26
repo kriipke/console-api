@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kriipke/golang-gorm-postgres/controllers"
-	"github.com/kriipke/golang-gorm-postgres/middleware"
+	"github.com/kriipke/console-api/controllers"
+	"github.com/kriipke/console-api/middleware"
 )
 
 type UserRouteController struct {

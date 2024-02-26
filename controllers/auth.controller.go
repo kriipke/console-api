@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kriipke/golang-gorm-postgres/initializers"
-	"github.com/kriipke/golang-gorm-postgres/models"
-	"github.com/kriipke/golang-gorm-postgres/utils"
+	"github.com/kriipke/console-api/initializers"
+	"github.com/kriipke/console-api/models"
+	"github.com/kriipke/console-api/utils"
 	"gorm.io/gorm"
 )
 

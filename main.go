@@ -6,10 +6,10 @@ import (
 	"net/http"	
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/kriipke/golang-gorm-postgres/controllers"
-	"github.com/kriipke/golang-gorm-postgres/initializers"
-	//"github.com/kriipke/golang-gorm-postgres/middleware"
-	"github.com/kriipke/golang-gorm-postgres/routes"
+	"github.com/kriipke/console-api/controllers"
+	"github.com/kriipke/console-api/initializers"
+	//"github.com/kriipke/console-api/middleware"
+	"github.com/kriipke/console-api/routes"
 )
 
 var (
