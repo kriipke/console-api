@@ -1,3 +1,8 @@
+## Project Specifications
+
+* Project Structure
+ - https://github.com/golang-standards/project-layout
+
 ## References
 
 ### CORS
