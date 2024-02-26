@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/kriipke/console-api/initializers"
-	"github.com/kriipke/console-api/models"
+	"github.com/kriipke/console-api/pkg/initializers"
+	"github.com/kriipke/console-api/pkg/models"
 )
 
 func init() {

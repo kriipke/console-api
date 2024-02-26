@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kriipke/console-api/initializers"
-	"github.com/kriipke/console-api/models"
-	"github.com/kriipke/console-api/utils"
+	"github.com/kriipke/console-api/pkg/initializers"
+	"github.com/kriipke/console-api/pkg/models"
+	"github.com/kriipke/console-api/pkg/utils"
 	"gorm.io/gorm"
 )
 
