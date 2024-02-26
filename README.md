@@ -1,3 +1,8 @@
+## References
+
+### CORS
+
+* https://fetch.spec.whatwg.org/#http-cors-protocol
 
 ## Backend
 https://github.com/wpcodevo/golang-gorm-postgres

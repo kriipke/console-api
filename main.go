@@ -2,12 +2,13 @@ package main
 
 import (
 	"log"
-	"net/http"
-
+	//"fmt"
+	"net/http"	
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/kriipke/golang-gorm-postgres/controllers"
 	"github.com/kriipke/golang-gorm-postgres/initializers"
+	//"github.com/kriipke/golang-gorm-postgres/middleware"
 	"github.com/kriipke/golang-gorm-postgres/routes"
 )
 
@@ -44,10 +45,14 @@ func main() {
 	}
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:8000", config.ClientOrigin}
-	corsConfig.AllowCredentials = true
+	corsConfig.AllowOrigins = []string{"http://0.0.0.0:8080", config.ClientOrigin}
+	//corsConfig.AllowAllOrigins = true
+	//corsConfig.AllowCredentials = true
+	// https://github.com/gin-gonic/gin/issues/2801 
+	//corsConfig.AddAllowMethods("OPTIONS")
 
-	server.Use(cors.New(corsConfig))
+	//server.Use(cors.New(corsConfig))
+	server.Use(corsMiddleware())
 
 	router := server.Group("/api")
 	router.GET("/healthchecker", func(ctx *gin.Context) {
@@ -60,4 +65,22 @@ func main() {
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
 
+
+// https://jwstanly.com/blog/article/How+to+solve+SAM+403+Errors+on+CORS+Preflight
+
+func corsMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+        c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+        c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
+        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+        if c.Request.Method == "OPTIONS" {
+            c.AbortWithStatus(204)
+            return
+        }
+
+        c.Next()
+    }
+}
 
