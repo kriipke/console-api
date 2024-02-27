@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"fmt"
+	"time"
 	"net/http"	
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -51,6 +53,8 @@ func main() {
 
 	//server.Use(cors.New(corsConfig))
 	server.Use(corsMiddleware())
+	server.Use(RequestLogger())
+	server.Use(ResponseLogger())
 
 	router := server.Group("/api")
 	router.GET("/healthchecker", func(ctx *gin.Context) {
@@ -65,10 +69,41 @@ func main() {
 
 
 // https://jwstanly.com/blog/article/How+to+solve+SAM+403+Errors+on+CORS+Preflight
+func RequestLogger() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        t := time.Now()
+
+        c.Next()
+
+        latency := time.Since(t)
+
+        fmt.Printf("%s %s %s %s\n",
+            c.Request.Method,
+            c.Request.RequestURI,
+            c.Request.Proto,
+            latency,
+        )
+    }
+}
+
+func ResponseLogger() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        c.Writer.Header().Set("X-Content-Type-Options", "nosniff")
+
+        c.Next()
+
+        fmt.Printf("%d %s %s\n",
+            c.Writer.Status(),
+            c.Request.Method,
+            c.Request.RequestURI,
+        )
+    }
+}
 
 func corsMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
-        c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+        c.Writer.Header().Set("Access-Control-Allow-Origin", 
+				"http://localhost:3000, http://localhost:8080")
         c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
         c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
         c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
