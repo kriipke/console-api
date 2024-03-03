@@ -1,3 +1,19 @@
+## Overview
+
+Secrets and other configuration for the `console-api` microserice should be located at:
+
+	configs/app.env
+
+You can create this file by executing
+
+	cp ./configs/app.env.example ./configs/app.env
+
+
+Afterwards, edit `./configs/app.env` to contain:
+
+* credentials to a valid Postgres 14 database
+* SMTP credentials to a Mailtrap Inbox
+
 ## Project Specifications
 
 	RESOURCE METHOD	ROUTE																	DESCRIPTION
@@ -62,3 +78,7 @@ https://github.com/wpcodevo/node_typeorm
 		UpdatedAt: now,
 	}
 
+=== if `false` 
+=== if `true` 
+
+SMTP creds will be sourced from `configs/app.env`. See `configs/app.env.example`.
