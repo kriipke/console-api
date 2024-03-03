@@ -46,12 +46,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/auth/refresh",
+							"raw": "http://localhost:8080/api/auth/refresh",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -76,12 +76,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/auth/forgotpassword",
+							"raw": "http://localhost:8080/api/auth/forgotpassword",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -106,12 +106,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/auth/resetpassword/CJ6a7SPThfBv2o132NQF",
+							"raw": "http://localhost:8080/api/auth/resetpassword/CJ6a7SPThfBv2o132NQF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -128,12 +128,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/auth/logout",
+							"raw": "http://localhost:8080/api/auth/logout",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -179,12 +179,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/auth/verifyemail/TR1KnnPr2PvkYi2xvvAG",
+							"raw": "http://localhost:8080/api/auth/verifyemail/TR1KnnPr2PvkYi2xvvAG",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -244,12 +244,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/posts",
+							"raw": "http://localhost:8080/api/posts",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"posts"
@@ -264,12 +264,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/posts/571e4146-c8d9-4507-81f4-4b1a3a01cd03",
+							"raw": "http://localhost:8080/api/posts/571e4146-c8d9-4507-81f4-4b1a3a01cd03",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"posts",
@@ -294,12 +294,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/posts/571e4146-c8d9-4507-81f4-4b1a3a01cd03",
+							"raw": "http://localhost:8080/api/posts/571e4146-c8d9-4507-81f4-4b1a3a01cd03",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"posts",
@@ -315,12 +315,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/posts/571e4146-c8d9-4507-81f4-4b1a3a01cd03",
+							"raw": "http://localhost:8080/api/posts/571e4146-c8d9-4507-81f4-4b1a3a01cd03",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"posts",
@@ -336,12 +336,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/posts?page=1&limit=10",
+							"raw": "http://localhost:8080/api/posts?page=1&limit=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8080",
 							"path": [
 								"api",
 								"posts"
