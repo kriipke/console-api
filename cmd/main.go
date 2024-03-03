@@ -26,6 +26,9 @@ var (
 
 	UserController      controllers.UserController
 	UserRouteController routes.UserRouteController
+
+	PostController      controllers.PostController
+	PostRouteController routes.PostRouteController
 )
 // function to convert an array to string
 func arrayToString(arr []string) string {
@@ -48,7 +51,9 @@ func init() {
 	UserController = controllers.NewUserController(initializers.DB)
 	UserRouteController = routes.NewRouteUserController(UserController)
 
-	gin.ForceConsoleColor()
+	PostController = controllers.NewPostController(initializers.DB)
+	PostRouteController = routes.NewRoutePostController(PostController)
+
 	server = gin.Default()
 }
 
@@ -81,6 +86,7 @@ func main() {
 
 	AuthRouteController.AuthRoute(router)
 	UserRouteController.UserRoute(router)
+	PostRouteController.PostRoute(router)
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
 
