@@ -5,11 +5,12 @@ import (
 	"time"
 	"strings"
 	"net/http"	
-	"github.com/gin-contrib/cors"
+	//"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/kriipke/console-api/pkg/controllers"
 	"github.com/kriipke/console-api/pkg/initializers"
 	"github.com/kriipke/console-api/pkg/routes"
+	"github.com/kriipke/console-api/pkg/middleware"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/fatih/color"
 	//"github.com/charmbracelet/lipgloss/table"
@@ -29,6 +30,9 @@ var (
 
 	PostController      controllers.PostController
 	PostRouteController routes.PostRouteController
+
+	ClusterController      controllers.ClusterController
+	ClusterRouteController routes.ClusterRouteController
 )
 // function to convert an array to string
 func arrayToString(arr []string) string {
@@ -54,6 +58,9 @@ func init() {
 	PostController = controllers.NewPostController(initializers.DB)
 	PostRouteController = routes.NewRoutePostController(PostController)
 
+	ClusterController = controllers.NewClusterController(initializers.DB)
+	ClusterRouteController = routes.NewRouteClusterController(ClusterController)
+
 	server = gin.Default()
 }
 
@@ -63,20 +70,19 @@ func main() {
 		log.Fatal("? Could not load environment variables", err)
 	}
 
-	//consoleApiHost := os.Getenv("CONSOLE_API_HOST")
-	//consoleApiPort := os.Getenv("CONSOLE_API_PORT")
-
-	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://0.0.0.0:8080", config.ClientOrigin}
-	//corsConfig.AllowAllOrigins = true
-	//corsConfig.AllowCredentials = true
 	// https://github.com/gin-gonic/gin/issues/2801 
-	//corsConfig.AddAllowMethods("OPTIONS")
+	// corsConfig := cors.DefaultConfig()
+	// corsConfig.AllowCredentials = true
+	// corsConfig.AllowOrigins = []string{"http://localhost:8080", "http://localhost:3000", config.ClientOrigin}
+	// corsConfig.AllowMethods = []string{"OPTIONS", "POST", "GET", "PUT"}
+	// corsConfig.AllowHeader = []string{"Content-Type", "Authorization", "Origin"}
 
-	//server.Use(cors.New(corsConfig))
-	server.Use(corsMiddleware())
-	server.Use(ResponseLogger())
-	server.Use(RequestLogger())
+
+	// server.Use(cors.New(corsConfig))
+
+	server.Use(middlware.CORSMiddleware())
+	server.Use(middleware.ResponseLogger())
+	server.Use(middleware.RequestLogger())
 
 	router := server.Group("/api")
 	router.GET("/healthchecker", func(ctx *gin.Context) {
@@ -87,80 +93,6 @@ func main() {
 	AuthRouteController.AuthRoute(router)
 	UserRouteController.UserRoute(router)
 	PostRouteController.PostRoute(router)
+	ClusterRouteController.ClusterRoute(router)
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
-
-
-// https://jwstanly.com/blog/article/How+to+solve+SAM+403+Errors+on+CORS+Preflight
-func RequestLogger() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        t := time.Now()
-
-				 c1 := color.New(color.FgMagenta, color.Bold)
-				 c2 := color.New(color.FgWhite)
-				 c3 := color.New(color.FgYellow)
-				 c4 := color.New(color.FgCyan, color.Bold)
-				 c5 := color.New(color.FgWhite, color.Bold)
-
-        c.Next()
-
-				latency := time.Since(t)
-
-        c4.Printf("\n  %s", c.Request.Method)
-				c5.Printf("%s  ", c.Request.RequestURI)
-				c1.Printf("%s  ", c.Request.Proto)
-				c2.Printf("%s\n",  latency)
-
-				for name, values := range c.Request.Header {
-						for _, value := range values {
-							c3.Printf("   %-20s:", name)
-							c2.Printf("%-40s\n", value)
-						}
-				}
-    }
-}
-
-func ResponseLogger() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        c.Writer.Header().Set("X-Content-Type-Options", "nosniff")
-
-        c.Next()
-
-				//c1 := color.New(color.FgMagenta, color.Bold)
-				c2 := color.New(color.FgWhite)
-				c3 := color.New(color.FgYellow)
-			  c4 := color.New(color.FgCyan, color.Bold)
-			  c5 := color.New(color.FgWhite, color.Bold)
-
-        c4.Printf("\n   %s", c.Writer.Status())
-				c4.Printf("%s  ", c.Request.Method)
-				c5.Printf("%s\n",  c.Request.RequestURI)
-
-				for name, values := range c.Writer.Header() {
-						for _, value := range values {
-							c3.Printf("    %-40s:", name)
-							c2.Printf("%-80s\n", value)
-						}
-				}
-
-    }
-}
-
-
-func corsMiddleware() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        c.Writer.Header().Set("Access-Control-Allow-Origin", 
-				"http://localhost:3000, http://localhost:8080")
-        c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-        c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
-        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-
-        if c.Request.Method == "OPTIONS" {
-            c.AbortWithStatus(204)
-            return
-        }
-
-        c.Next()
-    }
-}
-
