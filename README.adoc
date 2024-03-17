@@ -1,6 +1,8 @@
-# GitOps Console
+= GitOps Console
 
-## Overview
+image::docs/logo.png[20px,20px]
+
+== Overview
 
 Secrets and other configuration for the `console-api` microserice should be located at:
 
@@ -16,7 +18,7 @@ Afterwards, edit `./configs/app.env` to contain:
 * credentials to a valid Postgres 14 database
 * SMTP credentials to a Mailtrap Inbox
 
-## API Overview
+== API Overview
 
 	METHOD  METHOD	                                 ROUTE                                                                                             DESCRIPTION
 	----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -48,13 +50,13 @@ Afterwards, edit `./configs/app.env` to contain:
 * Project Structure
  - https://github.com/golang-standards/project-layout
 
-## References
+== References
 
-### CORS
+=== CORS
 
 * https://fetch.spec.whatwg.org/#http-cors-protocol
 
-## Backend
+== Backend
 https://github.com/wpcodevo/golang-gorm-postgres
 
 . https://codevoweb.com/setup-golang-gorm-restful-api-project-with-postgres
@@ -63,12 +65,12 @@ https://github.com/wpcodevo/golang-gorm-postgres
 4. https://codevoweb.com/forgot-reset-passwords-in-golang-with-html-email
 5. https://codevoweb.com/build-restful-crud-api-with-golang
 
-## Frontend
+== Frontend
 
 https://github.com/wpcodevo/react-query-axios-tailwindcss
 https://github.com/wpcodevo/node_typeorm
 
-## Hostname Definitions
+== Hostname Definitions
 
 
 
