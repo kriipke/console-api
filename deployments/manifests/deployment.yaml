@@ -16,6 +16,7 @@ spec:
       containers:
         - name: console-api
           image: kriipke/console-api:latest
+          imagePullPolicy: always
           ports:
           - containerPort: 8080
           resources:
