@@ -1,6 +1,72 @@
-= GitOps Console
+= GitOps Console image::docs/logo.png[20px,20px]
+:doctype: article
+:description: A README template written in AsciiDoc markup
+:license-type: MIT
+:author: Author Name 
+:email: author.name@domain.com
+:revnumber: v0.1
+:revdate: 2023-03-10
+:repository-url: https://github.com/JoeArauzo/AsciiDoc-README-Template
+:documentation-url: https://asciidoctor.org/docs/asciidoc-writers-guide/
+:source-highlighter: rouge
+:rouge-style: github
+:!showtitle:
+:icons: font
+:toc: preamble
+:toc-title:
+:imagesdir: docs
+:hardbreaks-option:
 
-image::docs/logo.png[20px,20px]
+
+
+// GitHub doesn't render asciidoc exactly as intended, so we adjust settings and utilize some html
+ifdef::env-github[]
+
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+
+++++
+
+<p align="center">
+  
+  <!-- REPLACE THE FOLLOWING URL WITH YOUR REPOSITORY'S URL -->
+  <a href="https://github.com/kriipke/console-api">
+    
+    <!-- REPLACE THE PLACEHOLDER LOGO WITH YOUR OWN LOGO AND ADJUST THE SIZE ACCORDINGLY -->
+    <img src="docs/logo.png" alt="Logo" width="30%" height="30%"></a>
+  
+  <!-- REPLACE THE FOLLOWING WITH YOUR REPOSITORY/PROJECT TITLE -->
+  <h3 align="center">GitOps Console</h3>
+  
+  <p align="center">
+  
+    <!-- REPLACE THE FOLLOWING WITH YOUR REPOSITORY/PROJECT'S SHORT DESCRIPTION -->
+    App Management Console for deploying Kubernetes-based workloads using GitOps.
+  
+
+  </p>
+</p>
+
+++++
+
+endif::[]
+
+// This conditional section applies to all environments, except GitHub
+ifndef::env-github[]
+image::logo.png[Logo, align=center, width=30%]
+[.text-center]
+[.lead]
+*{doctitle}*
+
+[.text-center]
+_{description}_ +
+{documentation-url}[Explore the docs »]
+endif::[]
+
+image::logo.png[20px,20px]
 
 == Overview
 
