@@ -1,4 +1,5 @@
 FROM golang:1.22-alpine
+LABEL org.opencontainers.image.source="https://github.com/kriipke/console-api"
 WORKDIR /app
 COPY . .
 RUN go mod download
