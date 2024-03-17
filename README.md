@@ -1,3 +1,5 @@
+# GitOps Console
+
 ## Overview
 
 Secrets and other configuration for the `console-api` microserice should be located at:
@@ -14,17 +16,34 @@ Afterwards, edit `./configs/app.env` to contain:
 * credentials to a valid Postgres 14 database
 * SMTP credentials to a Mailtrap Inbox
 
-## Project Specifications
+## API Overview
 
-	RESOURCE METHOD	ROUTE																	DESCRIPTION
-	-----------------------------------------------------------------------------
-	users	   GET		/api/users/me													Retrieve profile data
-	auth	   POST	  /api/auth/register										Create a new user
-	auth	   POST	  /api/auth/login												Sign in the user
-	auth	   GET		/api/auth/refresh											Refresh the access token
-	auth	   GET		/api/auth/logout											Logout the user
-	password POST		/api/auth/forgotpassword							To request a reset link
-	password PATCH	/api/auth/resetpassword/:resetToken		To reset the password
+	METHOD  METHOD	                                 ROUTE                                                                                             DESCRIPTION
+	----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	GET     /api/healthchecker                       main.main.func1
+	POST    /api/auth/register                       github.com/kriipke/console-api/pkg/controllers.(*AuthController).SignUpUser-fm                     Create a new user
+	POST    /api/auth/login                          github.com/kriipke/console-api/pkg/controllers.(*AuthController).SignInUser-fm                     Sign in the user
+	GET     /api/auth/refresh                        github.com/kriipke/console-api/pkg/controllers.(*AuthController).RefreshAccessToken-fm             Refresh the access token
+	GET     /api/auth/logout                         github.com/kriipke/console-api/pkg/controllers.(*AuthController).LogoutUser-fm                     Logout user
+	POST    /api/auth/forgotpassword                 github.com/kriipke/console-api/pkg/controllers.(*AuthController).ForgotPassword-fm                 To request a rest link
+	PATCH   /api/auth/resetpassword/:resetToken      github.com/kriipke/console-api/pkg/controllers.(*AuthController).ResetPassword-fm                  To reset the password
+	GET     /api/auth/verifyemail/:verificationCode  github.com/kriipke/console-api/pkg/controllers.(*AuthController).VerifyEmail-fm                    Verify Email address w/ verification code
+
+	GET     /api/users/me                            github.com/kriipke/console-api/pkg/controllers.(*UserController).GetMe-fm                          Return whoami info
+
+	POST    /api/posts/                              github.com/kriipke/console-api/pkg/controllers.(*PostController).CreatePost-fm                     Create new post
+	GET     /api/posts/                              github.com/kriipke/console-api/pkg/controllers.(*PostController).FindPosts-fm                      Get posts
+	PUT     /api/posts/:postId                       github.com/kriipke/console-api/pkg/controllers.(*PostController).UpdatePost-fm                     Updtae post
+	GET     /api/posts/:postId                       github.com/kriipke/console-api/pkg/controllers.(*PostController).FindPostById-fm                   Get post by ID
+	DELETE  /api/posts/:postId                       github.com/kriipke/console-api/pkg/controllers.(*PostController).DeletePost-fm                     Delete Post
+
+	POST    /api/clusters/                           github.com/kriipke/console-api/pkg/controllers.(*ClusterController).CreateCluster-fm               Add new cluster to DB
+	GET     /api/clusters/                           github.com/kriipke/console-api/pkg/controllers.(*ClusterController).FindClusters-fm                Fetch clusters
+	PUT     /api/clusters/:clusterId                 github.com/kriipke/console-api/pkg/controllers.(*ClusterController).UpdateCluster-fm               Update cluster info
+	GET     /api/clusters/:clusterId                 github.com/kriipke/console-api/pkg/controllers.(*ClusterController).FindClusterById-fm             Get cluster info by ID
+	DELETE  /api/clusters/:clusterId                 github.com/kriipke/console-api/pkg/controllers.(*ClusterController).DeleteCluster-fm               Delete Cluster
+
 
 * Project Structure
  - https://github.com/golang-standards/project-layout
