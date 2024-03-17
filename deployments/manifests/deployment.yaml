@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: console-api
-          image: ghcr.io/kriipke/console-api:latest
-          imagePullPolicy: always
+          image: ghcr.io/kriipke/console-api:feature-cluster-endpoints
+          imagePullPolicy: Always
           ports:
           - containerPort: 8080
           resources:
@@ -38,3 +38,11 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
+          volumeMounts:
+          - name: config-volume
+            mountPath: /app/configs/app.env
+            subPath: app.env
+      volumes:
+        - name: config-volume
+          configMap:
+            name: console-api-config
