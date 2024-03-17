@@ -16,6 +16,9 @@ spec:
     spec:
       containers:
         - name: console-api
+          envFrom:
+          - configMapRef:
+              name: console-api-env
           image: ghcr.io/kriipke/console-api:feature-cluster-endpoints
           imagePullPolicy: Always
           ports:
