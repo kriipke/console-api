@@ -1,0 +1,12 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: console-host
+  namespace: ambassador
+spec:
+  hostname: console.kriipke.io
+  tlsSecret:
+    name: tls-cert
+  tlsContext:
+    name: tls-termination-context

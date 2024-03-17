@@ -11,6 +11,7 @@ data:
     POSTGRES_PASSWORD=SOMEPASSWORD
     POSTGRES_DB=defaultdb
     POSTGRES_PORT=99999
+    POSTGRES_CA_CERT=/app/configs/ca-postgres.crt
 
     # CONSOLE-API SERVER PORT
     PORT=8080
