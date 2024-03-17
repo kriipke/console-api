@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: console-api
-          image: kriipke/console-api:latest
+          image: ghcr.io/kriipke/console-api:latest
           imagePullPolicy: always
           ports:
           - containerPort: 8080
