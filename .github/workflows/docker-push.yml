@@ -12,6 +12,8 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: feature/cluster-endpoints
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
