@@ -9,7 +9,7 @@ import (
 type Cluster struct {
 	ID        				uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key" json:"id,omitempty"`
 	ApiServerHost     string    `gorm:"uniqueIndex;not null" json:"api_server_host,omitempty"`
-	ApiServerPort     string    `gorm:"uniqueIndex;not null" json:"api_server_port,omitempty"`
+	ApiServerPort     string    `gorm:"not null" json:"api_server_port,omitempty"`
 	Name   						string    `gorm:"not null" json:"name,omitempty"`
 	Image     				string    `gorm:"not null" json:"image,omitempty"`
 	AddedBy      			uuid.UUID `gorm:"not null" json:"added_by,omitempty"`

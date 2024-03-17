@@ -1,14 +1,8 @@
 package middleware
 
 import (
-	"fmt"
-	"net/http"
-	"strings"
-
 	"github.com/gin-gonic/gin"
 	"github.com/kriipke/console-api/pkg/initializers"
-	"github.com/kriipke/console-api/pkg/models"
-	"github.com/kriipke/console-api/pkg/utils"
 )
 
 func CORSMiddleware() gin.HandlerFunc {

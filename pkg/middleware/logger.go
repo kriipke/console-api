@@ -1,11 +1,9 @@
 package middleware
 
 import (
-	"fmt"
-	"net/http"
-	"strings"
-	"github.com/fatih/color"
+	"time"
 	"github.com/gin-gonic/gin"
+	"github.com/fatih/color"
 )
 
 func RequestLogger() gin.HandlerFunc {

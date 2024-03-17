@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"time"
 	"strings"
 	"net/http"	
 	//"github.com/gin-contrib/cors"
@@ -11,14 +10,7 @@ import (
 	"github.com/kriipke/console-api/pkg/initializers"
 	"github.com/kriipke/console-api/pkg/routes"
 	"github.com/kriipke/console-api/pkg/middleware"
-	"github.com/charmbracelet/lipgloss"
-	"github.com/fatih/color"
-	//"github.com/charmbracelet/lipgloss/table"
-
 )
-
-var style_keys = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("5"))
-var style_values = lipgloss.NewStyle().Foreground(lipgloss.Color("8"))
 
 var (
 	server              *gin.Engine
@@ -80,7 +72,7 @@ func main() {
 
 	// server.Use(cors.New(corsConfig))
 
-	server.Use(middlware.CORSMiddleware())
+	server.Use(middleware.CORSMiddleware())
 	server.Use(middleware.ResponseLogger())
 	server.Use(middleware.RequestLogger())
 
