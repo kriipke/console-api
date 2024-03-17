@@ -2,10 +2,12 @@ name: Build and publish a Docker image
 on:
   push:
     branches:
-      - "*"
+      - '*'
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
   pull_request:
     branches:
-      - "*"
+      - '*'
 jobs:
   build:
     name: Build & push docker image
@@ -14,14 +16,12 @@ jobs:
       IMG_NAME: ${{ github.repository }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: feature/console-endpoints
+        uses: actions/checkout@v3
 
       - name: Debug
         run: |
           echo "github.ref -> {{ github.ref }}"
-
+ 
       - name: Docker metadata
         id: metadata
         uses: docker/metadata-action@v3
