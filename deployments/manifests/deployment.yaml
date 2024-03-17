@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: console-api
+  namespace: console
 spec:
   replicas: 3
   selector:
@@ -19,6 +20,7 @@ spec:
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
+            name: http
           resources:
             limits:
               cpu: 500m
@@ -28,13 +30,13 @@ spec:
               memory: 256Mi
           readinessProbe:
             httpGet:
-              path: /healthchecker
+              path: /api/healthchecker
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /healthchecker
+              path: /api/healthchecker
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
@@ -42,7 +44,13 @@ spec:
           - name: config-volume
             mountPath: /app/configs/app.env
             subPath: app.env
+          - name: postgres-ca-cert
+            mountPath: /app/configs/ca-postgres.crt
+            subPath: ca-postgres.crt
       volumes:
         - name: config-volume
           configMap:
             name: console-api-config
+        - name: postgres-ca-cert
+          configMap:
+            name: postgres-ca-cert
