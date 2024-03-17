@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: console-api
+  namespace: console
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: console-api
+  template:
+    metadata:
+      labels:
+        app: console-api
+    spec:
+      containers:
+        - name: console-api
+          envFrom:
+          - configMapRef:
+              name: console-api-env
+          image: ghcr.io/kriipke/console-api:feature-cluster-endpoints
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+            name: http
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /api/healthchecker
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/healthchecker
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+          - name: config-volume
+            mountPath: /app/configs/app.env
+            subPath: app.env
+          - name: postgres-ca-cert
+            mountPath: /app/configs/ca-postgres.crt
+            subPath: ca-postgres.crt
+      volumes:
+        - name: config-volume
+          configMap:
+            name: console-api-config
+        - name: postgres-ca-cert
+          configMap:
+            name: postgres-ca-cert

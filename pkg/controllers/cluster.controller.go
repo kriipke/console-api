@@ -11,18 +11,18 @@ import (
 	"gorm.io/gorm"
 )
 
-type PostController struct {
+type ClusterController struct {
 	DB *gorm.DB
 }
 
-func NewPostController(DB *gorm.DB) PostController {
-	return PostController{DB}
+func NewClusterController(DB *gorm.DB) ClusterController {
+	return ClusterController{DB}
 }
 
-// [...] Create Post Handler
-func (pc *PostController) CreatePost(ctx *gin.Context) {
+// [...] Create Cluster Handler
+func (cc *ClusterController) CreateCluster(ctx *gin.Context) {
 	currentUser := ctx.MustGet("currentUser").(models.User)
-	var payload *models.CreatePostRequest
+	var payload *models.CreateClusterRequest
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
@@ -30,75 +30,79 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	newPost := models.Post{
-		Title:     payload.Title,
-		Content:   payload.Content,
-		Image:     payload.Image,
-		User:      currentUser.ID,
-		CreatedAt: now,
-		UpdatedAt: now,
+	newCluster := models.Cluster{
+		ApiServerHost:  payload.ApiServerHost,
+		ApiServerPort:  payload.ApiServerPort,
+		Name:   		payload.Name,
+		Image:     		payload.Image,
+		AddedBy:      	currentUser.ID,
+		CreatedAt: 		now,
+		UpdatedAt: 		now,
 	}
 
-	result := pc.DB.Create(&newPost)
+	result := cc.DB.Create(&newCluster)
 	if result.Error != nil {
 		if strings.Contains(result.Error.Error(), "duplicate key") {
-			ctx.JSON(http.StatusConflict, gin.H{"status": "fail", "message": "Post with that title already exists"})
+			ctx.JSON(http.StatusConflict, gin.H{"status": "fail", "message": "Cluster with that title already exists"})
 			return
 		}
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": result.Error.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "data": newPost})
+	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "data": newCluster})
 }
 
-// [...] Update Post Handler
-func (pc *PostController) UpdatePost(ctx *gin.Context) {
-	postId := ctx.Param("postId")
-	currentUser := ctx.MustGet("currentUser").(models.User)
+// [...] Update Cluster Handler
+func (cc *ClusterController) UpdateCluster(ctx *gin.Context) {
+	clusterId := ctx.Param("clusterId")
 
-	var payload *models.UpdatePost
+	// TO-DO: Add LastUpdatedBy field of Cluster and use this def below to populate it
+	//currentUser := ctx.MustGet("currentUser").(models.User)
+
+	var payload *models.UpdateCluster
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
-	var updatedPost models.Post
-	result := pc.DB.First(&updatedPost, "id = ?", postId)
+	var updatedCluster models.Cluster
+	result := cc.DB.First(&updatedCluster, "id = ?", clusterId)
 	if result.Error != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
+		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No cluster with that title exists"})
 		return
 	}
 	now := time.Now()
-	postToUpdate := models.Post{
-		Title:     payload.Title,
-		Content:   payload.Content,
-		Image:     payload.Image,
-		User:      currentUser.ID,
-		CreatedAt: updatedPost.CreatedAt,
+	clusterToUpdate := models.Cluster{
+		ApiServerHost:  payload.ApiServerHost,
+		ApiServerPort:  payload.ApiServerPort,
+		Name:   		payload.Name,
+		Image:     		payload.Image,
+		AddedBy:      	updatedCluster.AddedBy,
+		CreatedAt: updatedCluster.CreatedAt,
 		UpdatedAt: now,
 	}
 
-	pc.DB.Model(&updatedPost).Updates(postToUpdate)
+	cc.DB.Model(&updatedCluster).Updates(clusterToUpdate)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": updatedPost})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": updatedCluster})
 }
 
-// [...] Get Single Post Handler
-func (pc *PostController) FindPostById(ctx *gin.Context) {
-	postId := ctx.Param("postId")
+// [...] Get Single Cluster Handler
+func (cc *ClusterController) FindClusterById(ctx *gin.Context) {
+	clusterId := ctx.Param("clusterId")
 
-	var post models.Post
-	result := pc.DB.First(&post, "id = ?", postId)
+	var cluster models.Cluster
+	result := cc.DB.First(&cluster, "id = ?", clusterId)
 	if result.Error != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
+		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No cluster with that title exists"})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": post})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": cluster})
 }
 
-// [...] Get All Posts Handler
-func (pc *PostController) FindPosts(ctx *gin.Context) {
+// [...] Get All Clusters Handler
+func (cc *ClusterController) FindClusters(ctx *gin.Context) {
 	var page = ctx.DefaultQuery("page", "1")
 	var limit = ctx.DefaultQuery("limit", "10")
 
@@ -106,24 +110,24 @@ func (pc *PostController) FindPosts(ctx *gin.Context) {
 	intLimit, _ := strconv.Atoi(limit)
 	offset := (intPage - 1) * intLimit
 
-	var posts []models.Post
-	results := pc.DB.Limit(intLimit).Offset(offset).Find(&posts)
+	var clusters []models.Cluster
+	results := cc.DB.Limit(intLimit).Offset(offset).Find(&clusters)
 	if results.Error != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": results.Error})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "results": len(posts), "data": posts})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "results": len(clusters), "data": clusters})
 }
 
-// [...] Delete Post Handler
-func (pc *PostController) DeletePost(ctx *gin.Context) {
-	postId := ctx.Param("postId")
+// [...] Delete Cluster Handler
+func (cc *ClusterController) DeleteCluster(ctx *gin.Context) {
+	clusterId := ctx.Param("clusterId")
 
-	result := pc.DB.Delete(&models.Post{}, "id = ?", postId)
+	result := cc.DB.Delete(&models.Cluster{}, "id = ?", clusterId)
 
 	if result.Error != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
+		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No cluster with that title exists"})
 		return
 	}
 

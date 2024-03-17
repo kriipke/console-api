@@ -1,0 +1,21 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: console-backend
+  namespace: console
+spec:
+  host: console.kriipke.io
+  prefix: /api/
+  rewrite: /api/
+  service: http://console-api.console:8080
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: console-frontend
+  namespace: console
+spec:
+  host: console.kriipke.io
+  prefix: /
+  service: console-web
