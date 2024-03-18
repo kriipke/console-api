@@ -11,7 +11,7 @@ data:
   POSTGRES_CA_CERT: "/app/configs/ca-postgres.crt"
   POSTGRES_PORT: "55555"
   PORT: "8080"
-  CLIENT_ORIGIN: "http://0.0.0.0:3000"
+  CLIENT_ORIGIN: "https://console.kriipke.io"
   EMAIL_FROM: "admin@admin.com"
   SMTP_HOST: "sandbox.smtp.mailtrap.io"
   SMTP_USER: "example_11f64b34eda5e4f"
